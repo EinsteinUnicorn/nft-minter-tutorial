@@ -6,6 +6,11 @@ import {
 
 } from "./util/interact.js";
 
+import detectEthereumProvider from '@metamask/detect-provider';
+
+import { cliOptions } from "./snap.config.js";
+
+
 const Minter = (props) => {
   const [walletAddress, setWallet] = useState("");
   const [status, setStatus] = useState("");
@@ -21,7 +26,25 @@ const Minter = (props) => {
     setStatus(status);
 
     addWalletListener();
+
+    // This resolves to the value of window.ethereum or null
+  const provider = await detectEthereumProvider();
+
+  // web3_clientVersion returns the installed MetaMask version as a string
+  const isFlask = (
+    await provider?.request({ method: 'web3_clientVersion' })
+  )?.includes('flask');
+
+  if (provider && isFlask) {
+    console.log('MetaMask Flask successfully detected!');
+
+    // Now you can use Snaps!
+  } else {
+    console.error('Please install MetaMask Flask!');
+  }
   }, []);
+
+  
 
   function addWalletListener() {
     if (window.ethereum) {
@@ -84,7 +107,7 @@ const Minter = (props) => {
 
 const onNotifPressed = async () => {
 
-  const snapId = `local:${window.location.href}`;
+  const snapId = `local:http://localhost:${cliOptions.port}`;
 
   const tickets = await window.ethereum.request({
     method: 'wallet_invokeSnap',
@@ -127,18 +150,17 @@ const onNotifPressed = async () => {
   };
 
   const connectSnap = async () => {
-    //const snapId = `local:${window.location.href}`;
+    const snapId = `local:http://localhost:${cliOptions.port}`;
     await window.ethereum.request({
       method: 'wallet_enable',
-      params: [
-        {
-          wallet_snap: {
-            'npm:hello-snap': {},
-          },
-        },
-      ],
-    });
+      params: [{
+        wallet_snap: { [snapId]: {} },
+      }]
+
+    })
+    .then((res) => console.log(res));
     console.log("connected");
+
   }
 
 
@@ -155,7 +177,7 @@ const onNotifPressed = async () => {
         )}
       </button>
 
-        {/* <button onClick={connectSnap}>connect snap</button> */}
+        <button onClick={connectSnap}>connect snap</button>
       <br></br>
       <h1 id="title">ETHCC After Party </h1>
       <h2>Hosted by: Zora</h2>
@@ -168,7 +190,7 @@ const onNotifPressed = async () => {
         <input
           type="text"
           placeholder="Satoshi"
-          onChange={(event) => setURL("https://gateway.pinata.cloud/ipfs/QmaU8ZeaPqdrNypRrKK8QE7PeSt9Jo7KY7RRJCBxrT6Hgd") & setName(event.target.value)}
+          onChange={(event) => setURL("https://gateway.pinata.cloud/ipfs/QmSF4MymNhKBTqBzonkv4ANKQe1fyowejB4zASLBEa2zoW") & setName(event.target.value)}
         />
         <h2>✍️ Twitter: </h2>
         <input

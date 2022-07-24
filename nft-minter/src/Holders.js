@@ -84,6 +84,17 @@ const Holders = (props) => {
               <span>Connect Wallet</span>
             )}
           </button>
+          <form>  
+        <h2>✉️: Message Guests</h2>
+        <input
+          type="text"
+          placeholder="WAGMI"
+          //onChange={(event) => setURL("https://gateway.pinata.cloud/ipfs/QmSF4MymNhKBTqBzonkv4ANKQe1fyowejB4zASLBEa2zoW") & setName(event.target.value)}
+        />
+      </form>
+      <button id="mintButton">
+        Send Message
+      </button>
 
           <br></br>
           <h1 id="title">ETHCC After Party Guest List </h1>

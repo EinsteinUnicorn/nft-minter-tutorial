@@ -1,0 +1,25 @@
+{
+  "version": "0.7.0",
+  "proposedName": "ETHCC Afterparty",
+  "description": "A MetaMask Snap template.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MetaMask/snap-template.git"
+  },
+  "source": {
+    "shasum": "UMJPY6p2gnFIeZBQAwch7LSR9wUg8hFppf48A6O/was=",
+    "location": {
+      "npm": {
+        "filePath": "dist/bundle.js",
+        "iconPath": "images/icon.svg",
+        "packageName": "@metamask/template-snap",
+        "registry": "https://registry.npmjs.org/"
+      }
+    }
+  },
+  "initialPermissions": {
+    "snap_confirm": {},
+    "snap_notify": {}
+  },
+  "manifestVersion": "0.1"
+}

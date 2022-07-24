@@ -1,5 +1,5 @@
 {
-    "version": "0.18.1",
+    "version": "0.1.0",
     "description": "A notification example snap.",
     "proposedName": "Notification Example Snap",
     "repository": {
@@ -11,14 +11,15 @@
       "location": {
         "npm": {
           "filePath": "dist/bundle.js",
-          "packageName": "notification-snap",
+          "packageName": "nft-minter",
           "registry": "https://registry.npmjs.org/"
         }
       }
     },
     "initialPermissions": {
       "snap_notify": {},
-      "snap_confirm": {}
+      "snap_confirm": {},
+      "endowment:network-access": {}
     },
     "manifestVersion": "0.1"
   }
