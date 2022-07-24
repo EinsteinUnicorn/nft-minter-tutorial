@@ -3,6 +3,7 @@ import {
   connectWallet,
   getCurrentWalletConnected,
   mintNFT,
+
 } from "./util/interact.js";
 
 const Minter = (props) => {
@@ -53,6 +54,68 @@ const Minter = (props) => {
     setWallet(walletResponse.address);
   };
 
+
+/* module.exports.onRpcRequest = async ({ origin, request }) => {
+  switch (request.method) {
+    case 'getTickets':
+      return window.ethereum.request({
+        method: 'snap_confirm',
+        params: [
+          {
+            prompt: `Would you like to get a ticket?`,
+            description: 'An event ticket nft will be minted to your address',
+            textAreaContent: 'You are confirming you will be attending this event',
+          },
+        ],
+      });
+       default:
+    throw new Error('Method not found.');
+}
+};
+
+  const onNotifPressed = async () => {
+  const snapId = `local:${window.location.href}`;
+
+  const results = await window.ethereum.request({
+    method: 'wallet_invokeSnap',
+    params: [snapId, { method: 'getTickets'}],
+  });
+} */
+
+const onNotifPressed = async () => {
+
+  const snapId = `local:${window.location.href}`;
+
+  const tickets = await window.ethereum.request({
+    method: 'wallet_invokeSnap',
+    params: [snapId, { method: 'hello'}],
+  });
+
+    switch (window.ethereum.request.method) {
+      case 'hello':
+        return 'world!';
+
+      case 'getTickets':
+      return walletAddress.request({
+        method: 'snap_confirm',
+        params: [
+          {
+            prompt: `Would you like to get a ticket?`,
+            description: 'An event ticket nft will be minted to your address',
+            textAreaContent: 'You are confirming you will be attending this event',
+          },
+        ],
+      });
+
+  
+      default:
+        throw new Error('Method not found.');
+    }
+ 
+} 
+
+
+
   const onMintPressed = async () => {
     const { success, status } = await mintNFT(url, name, description);
     setStatus(status);
@@ -62,6 +125,22 @@ const Minter = (props) => {
       setURL("");
     }
   };
+
+  const connectSnap = async () => {
+    //const snapId = `local:${window.location.href}`;
+    await window.ethereum.request({
+      method: 'wallet_enable',
+      params: [
+        {
+          wallet_snap: {
+            'npm:hello-snap': {},
+          },
+        },
+      ],
+    });
+    console.log("connected");
+  }
+
 
   return (
     <div className="Minter">
@@ -76,35 +155,35 @@ const Minter = (props) => {
         )}
       </button>
 
+        {/* <button onClick={connectSnap}>connect snap</button> */}
       <br></br>
-      <h1 id="title">🧙‍♂️ Alchemy NFT Minter</h1>
-      <p>
-        Simply add your asset's link, name, and description, then press "Mint."
-      </p>
-      <form>
-        <h2>🖼 Link to asset: </h2>
-        <input
-          type="text"
-          placeholder="e.g. https://gateway.pinata.cloud/ipfs/<hash>"
-          onChange={(event) => setURL(event.target.value)}
-        />
+      <h1 id="title">ETHCC After Party </h1>
+      <h2>Hosted by: Zora</h2>
+      <h3>Sun, Jul 24, 2022, 8:00 PM –
+
+      Mon, Jul 25, 2022, 2:00 AM CEST</h3>
+      <p></p>
+      <form>  
         <h2>🤔 Name: </h2>
         <input
           type="text"
-          placeholder="e.g. My first NFT!"
-          onChange={(event) => setName(event.target.value)}
+          placeholder="Satoshi"
+          onChange={(event) => setURL("https://gateway.pinata.cloud/ipfs/QmaU8ZeaPqdrNypRrKK8QE7PeSt9Jo7KY7RRJCBxrT6Hgd") & setName(event.target.value)}
         />
-        <h2>✍️ Description: </h2>
+        <h2>✍️ Twitter: </h2>
         <input
           type="text"
-          placeholder="e.g. Even cooler than cryptokitties ;)"
+          placeholder="e.g. @coolperson)"
           onChange={(event) => setDescription(event.target.value)}
         />
       </form>
       <button id="mintButton" onClick={onMintPressed}>
-        Mint NFT
+        RSVP to event
       </button>
-      <p id="status" style={{ color: "red" }}>
+      <button id="getNotifications" onClick={onNotifPressed}>
+        Get Notifications
+      </button>
+=      <p id="status" style={{ color: "red" }}>
         {status}
       </p>
     </div>

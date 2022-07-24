@@ -7,6 +7,7 @@ const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
 const web3 = createAlchemyWeb3(alchemyKey);
 
 export const connectWallet = async () => {
+  
   if (window.ethereum) {
     try {
       const addressArray = await window.ethereum.request({
@@ -41,6 +42,7 @@ export const connectWallet = async () => {
     };
   }
 };
+
 
 export const getCurrentWalletConnected = async () => {
   if (window.ethereum) {
@@ -129,7 +131,7 @@ export const mintNFT = async (url, name, description) => {
     return {
       success: true,
       status:
-        "✅ Check out your transaction on Etherscan: https://ropsten.etherscan.io/tx/" +
+        "✅ Check out your transaction on PolygonScan: https://mumbai.polygonscan.com/tx/" +
         txHash,
     };
   } catch (error) {
@@ -139,3 +141,4 @@ export const mintNFT = async (url, name, description) => {
     };
   }
 };
+
